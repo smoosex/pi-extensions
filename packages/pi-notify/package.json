@@ -1,0 +1,42 @@
+{
+  "name": "@smoose/pi-notify",
+  "version": "0.1.2",
+  "description": "Native terminal notifications for Pi when the agent is ready for input.",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "notification"
+  ],
+  "license": "MIT",
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "files": [
+    "src/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smoosex/pi-extensions.git",
+    "directory": "packages/pi-notify"
+  },
+  "homepage": "https://github.com/smoosex/pi-extensions/tree/main/packages/pi-notify#readme",
+  "bugs": {
+    "url": "https://github.com/smoosex/pi-extensions/issues"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.22.4",
+    "typescript": "^5.7.0"
+  },
+  "scripts": {
+    "test": "node --import tsx --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  }
+}

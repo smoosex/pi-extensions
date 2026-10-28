@@ -1,0 +1,50 @@
+{
+  "name": "@smoose/pi-persona",
+  "version": "0.2.1",
+  "description": "A pi extension that adds persistent persona and emotional state to your coding agent",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsc --outDir .tmp-test --noEmit false && node --test .tmp-test/src/**/*.test.js"
+  },
+  "keywords": [
+    "pi-package",
+    "personality",
+    "mood",
+    "emotion"
+  ],
+  "author": "smoose",
+  "license": "MIT",
+  "pi": {
+    "extensions": [
+      "./extensions"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smoosex/pi-extensions.git",
+    "directory": "packages/pi-persona"
+  },
+  "homepage": "https://github.com/smoosex/pi-extensions/tree/main/packages/pi-persona#readme",
+  "bugs": {
+    "url": "https://github.com/smoosex/pi-extensions/issues"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": ">=1.2.0",
+    "@earendil-works/pi-tui": "*",
+    "typebox": "*"
+  },
+  "files": [
+    "src/**/*.ts",
+    "!src/**/*.test.ts",
+    "extensions"
+  ],
+  "dependencies": {
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "^1.4.0",
+    "@types/node": "^25.9.1",
+    "typescript": "^6.0.3"
+  }
+}

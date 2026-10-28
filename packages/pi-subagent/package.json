@@ -1,0 +1,57 @@
+{
+  "name": "@smoose/pi-subagent",
+  "version": "0.1.0",
+  "description": "Minimal Pi subagent extension with explorer and general roles.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "scripts": {
+    "test": "node --test 'test/**/*.mjs'",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "pi",
+    "subagent",
+    "delegation",
+    "pi-package"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smoosex/pi-extensions.git",
+    "directory": "packages/pi-subagent"
+  },
+  "homepage": "https://github.com/smoosex/pi-extensions/tree/main/packages/pi-subagent#readme",
+  "bugs": {
+    "url": "https://github.com/smoosex/pi-extensions/issues"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-agent-core": ">=0.77.0",
+    "@earendil-works/pi-ai": ">=0.77.0",
+    "@earendil-works/pi-coding-agent": ">=0.78.0",
+    "@earendil-works/pi-tui": ">=0.78.0",
+    "typebox": ">=1.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@earendil-works/pi-agent-core": {
+      "optional": true
+    },
+    "@earendil-works/pi-ai": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@earendil-works/pi-agent-core": "^0.77.0",
+    "@earendil-works/pi-ai": "^0.77.0",
+    "@earendil-works/pi-coding-agent": "^0.78.0",
+    "@earendil-works/pi-tui": "^0.78.0",
+    "@types/node": ">=24.0.0",
+    "typebox": "^1.1.38",
+    "typescript": ">=5.9.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "pi-extensions",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "semver": "^7.7.3"
+  },
+  "scripts": {
+    "test:release": "node --test scripts/release.test.mjs",
+    "check:packages": "node scripts/check-packages.mjs"
+  }
+}

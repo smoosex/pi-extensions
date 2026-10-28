@@ -1,0 +1,62 @@
+{
+  "name": "@smoose/pi-vision",
+  "version": "0.1.2",
+  "description": "Pi image recognition tool: lets text-only models see images via local CLI providers (Codex or Agy).",
+  "type": "module",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "士心",
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "pi",
+    "codex",
+    "agy",
+    "image-recognition",
+    "vision",
+    "ocr",
+    "multimodal"
+  ],
+  "exports": {
+    ".": "./index.ts"
+  },
+  "files": [
+    "index.ts",
+    "src/**/*.ts",
+    "README.md"
+  ],
+  "scripts": {
+    "check": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smoosex/pi-extensions.git",
+    "directory": "packages/pi-vision"
+  },
+  "homepage": "https://github.com/smoosex/pi-extensions/tree/main/packages/pi-vision#readme",
+  "bugs": {
+    "url": "https://github.com/smoosex/pi-extensions/issues"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "typebox": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "^0.78.0",
+    "@earendil-works/pi-tui": "^0.78.1",
+    "@types/node": "^25.6.2",
+    "typebox": "^1.1.39",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=20.6.0"
+  }
+}

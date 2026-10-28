@@ -1,0 +1,44 @@
+{
+  "name": "@smoose/pi-themes",
+  "version": "0.1.2",
+  "description": "Theme pack for pi with file-based theme switching.",
+  "type": "module",
+  "files": [
+    "extensions",
+    "themes",
+    "README.md"
+  ],
+  "keywords": [
+    "pi-package",
+    "themes",
+    "pi-extension",
+    "theme-pack",
+    "everforest",
+    "tokyonight"
+  ],
+  "author": "mavam",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smoosex/pi-extensions.git",
+    "directory": "packages/pi-themes"
+  },
+  "homepage": "https://github.com/smoosex/pi-extensions/tree/main/packages/pi-themes#readme",
+  "bugs": {
+    "url": "https://github.com/smoosex/pi-extensions/issues"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions"
+    ],
+    "themes": [
+      "./themes"
+    ]
+  }
+}

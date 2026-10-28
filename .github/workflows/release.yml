@@ -1,0 +1,44 @@
+name: Release packages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: npm-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.event_name == 'workflow_dispatch' || github.event.before != '0000000000000000000000000000000000000000'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: https://registry.npmjs.org
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.3
+      - run: bun install --frozen-lockfile --ignore-scripts
+      - run: bun run test:release
+      - run: bun run check:packages
+      - name: Prepare release and push versions
+        run: node scripts/release.mjs prepare "$BEFORE" "$AFTER"
+        env:
+          BEFORE: ${{ github.event.before || github.sha }}
+          AFTER: ${{ github.sha }}
+      - name: Publish changed packages
+        run: node scripts/release.mjs publish "$BEFORE" "$AFTER"
+        env:
+          BEFORE: ${{ github.event.before || github.sha }}
+          AFTER: ${{ github.sha }}
