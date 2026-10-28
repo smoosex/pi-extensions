@@ -8,6 +8,10 @@ export function changedPackages(paths, packageNames) {
   return [...new Set(paths.map((path) => /^packages\/([^/]+)\//.exec(path)?.[1]).filter((name) => available.has(name)))].sort();
 }
 
+export function selectPackages(paths, packageNames, publishAll) {
+  return publishAll ? [...packageNames].sort() : changedPackages(paths, packageNames);
+}
+
 export function nextVersion(current, published) {
   if (!semver.valid(current) || semver.prerelease(current)) throw new Error(`Expected a stable version, got ${current}`);
   const stable = published.filter((version) => semver.valid(version) && !semver.prerelease(version)).sort(semver.rcompare);
@@ -65,7 +69,7 @@ function main() {
     }
     const baseline = previous || run("git", ["rev-list", "--max-parents=0", "HEAD"]).split("\n")[0];
     const files = run("git", ["diff", "--name-only", baseline, "HEAD"]).split("\n").filter(Boolean);
-    changed = changedPackages(files, names);
+    changed = selectPackages(files, names, process.env.PUBLISH_ALL === "true");
   }
   if (!changed.length) {
     console.log("No packages changed.");

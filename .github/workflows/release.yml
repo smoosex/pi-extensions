@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      publish_all:
+        description: Publish all packages, including unchanged ones
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -15,7 +20,7 @@ concurrency:
 
 jobs:
   release:
-    if: github.event_name == 'workflow_dispatch' || github.event.before != '0000000000000000000000000000000000000000'
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' || github.event.before != '0000000000000000000000000000000000000000')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -37,6 +42,7 @@ jobs:
         env:
           BEFORE: ${{ github.event.before || github.sha }}
           AFTER: ${{ github.sha }}
+          PUBLISH_ALL: ${{ inputs.publish_all && 'true' || 'false' }}
       - name: Publish changed packages
         run: node scripts/release.mjs publish "$BEFORE" "$AFTER"
         env:

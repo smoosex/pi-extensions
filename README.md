@@ -22,6 +22,7 @@ bun run --cwd packages/pi-persona test
 
 - 已发布的版本默认自动递增 patch；如果手动将包版本设为比 npm 上所有稳定版本更高的稳定版本，则使用手动指定的版本。
 - 版本提交由 workflow 自动推送，提交信息带 `[skip ci]`。只改根目录文件不会发布包；改动包内 README、测试或其他文件也会触发该包发布。
+- 要手动发布所有包，在 GitHub 的 **Actions → Release packages → Run workflow** 中选择 `main`，勾选 **Publish all packages, including unchanged ones** 后运行。此操作会为每个已发布的包发布新版本，不是仅更新 npm 页面。
 - 发布前会执行检查，并查询 npm，避免重复发布已有版本。包发布失败时，在有新的推送之前通过 GitHub Actions 的 **Re-run jobs** 重试；已发布的包会跳过。若失败后已有新提交，流程会停止以防遗漏未发布的包，需先排查并恢复上次发布。
 - 多个推送会串行处理；如果推送发生在 workflow 写回版本的同时，写回可能因远程有新提交而失败。后续排队的 workflow 会重新检查自上次发布以来的变更；没有后续运行时可重试失败的 workflow。
 
