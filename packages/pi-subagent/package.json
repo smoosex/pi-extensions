@@ -1,6 +1,6 @@
 {
   "name": "@smoose/pi-subagent",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Minimal Pi subagent extension with explorer and general roles.",
   "type": "module",
   "main": "src/index.ts",
