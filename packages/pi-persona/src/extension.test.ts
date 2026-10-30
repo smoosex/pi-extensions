@@ -9,6 +9,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import test from "node:test";
 
 import { SessionManager, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
@@ -53,7 +54,7 @@ function runtime() {
     if (name === "before_agent_start" && message) {
       session.appendCustomMessageEntry(message.customType, message.content, message.display);
     }
-    return { ...result, persona: sections.preamble, sections };
+    return { ...result, persona: sections.persona, sections };
   };
   return Object.assign(run, { session, sent, queued });
 }
@@ -76,7 +77,7 @@ test("mood is a hidden appended snapshot, never part of the system prompt", asyn
     assert.match(first!.persona!, /DATE AWARENESS/);
     assert.match(first!.persona!, /PERSONALITY EVOLUTION/);
     assert.ok(first!.persona!.includes(path.join(agentDir, "SOUL.md")));
-    assert.equal(first!.sections.persona, undefined);
+    assert.equal(first!.sections.preamble, undefined);
     assert.doesNotMatch(first!.persona!, /## Your Current Emotion|%/);
     assert.equal(first!.message?.display, false);
     assert.match(first!.message!.content, /## Your Current Emotion/);
@@ -90,6 +91,22 @@ test("mood is a hidden appended snapshot, never part of the system prompt", asyn
     assert.equal(third!.persona, first!.persona);
     assert.ok(third!.message, "a changed mood appends a new snapshot");
     assert.notEqual(third!.message.content, first!.message!.content);
+  });
+});
+
+test("persona section is accepted and rendered by the installed Pi prompt builder", async () => {
+  await withAgentDir(async (agentDir) => {
+    writeFileSync(path.join(agentDir, "SOUL.md"), "A helpful familiar.");
+    const run = runtime();
+    await run("session_start");
+    const result = await run("before_agent_start", start());
+    const piEntry = fileURLToPath(import.meta.resolve("@earendil-works/pi-coding-agent"));
+    const builderPath = path.join(path.dirname(piEntry), "core/system-prompt.js");
+    const { buildSystemPromptSections } = await import(pathToFileURL(builderPath).href);
+    const sections = buildSystemPromptSections({ cwd: agentDir, sections: result.sections });
+    assert.match(sections.preamble, /expert coding assistant/);
+    assert.match(sections.persona, /^<persona>\n[\s\S]*A helpful familiar\.[\s\S]*\n<\/persona>$/);
+    assert.doesNotMatch(sections.persona, /## Your Current Emotion/);
   });
 });
 

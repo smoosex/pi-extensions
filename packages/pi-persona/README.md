@@ -10,15 +10,15 @@ In plain words: pi gets a bit of personality, a bit of memory, and feels more li
 pi install npm:@smoose/pi-persona
 ```
 
-Requires a pi build that allows `systemPromptOptions.sections.preamble` (the local Pi fork includes this change). Stock pi 1.4.0 rejects that section; a version number alone does not guarantee support.
+Requires pi 1.4.0 or later. The persona uses pi's custom system-prompt section API and works with stock pi 1.4.0; no fork is required.
 
 ## How It Reaches the Model
 
-The persona replaces pi's default identity through the untagged `preamble` section, while pi still generates its tools, rules and documentation sections. It includes language and safety rules, the authoritative local date, `SOUL.md` with its absolute path, personality-evolution instructions, and optional `USER.md` context. The preamble stays identical within a local day unless those files change, and is recorded in the session so exports show it. A custom `SYSTEM.md` (`customPrompt`) keeps ownership of the identity; the extension does not override it. The current emotion is appended to the conversation as a hidden message (not shown in the UI, but visible to the model) only when the emotion or its intensity level changes. It carries no exact percentage or timestamp, so decay within the same intensity level adds no new snapshot. Earlier snapshots stay in the history unchanged; the model is told that only the latest one counts. After a branch switch, compaction or context edit removes the latest snapshot, it is sent again on the next prompt, or right away when pi continues automatically after compaction.
+The persona is added as a `<persona>` system-prompt section; pi's default identity, tools, rules and documentation remain in place. The default identity and persona instructions can conflict. The section includes language and safety rules, the authoritative local date, `SOUL.md` with its absolute path, personality-evolution instructions, and optional `USER.md` context. It stays identical within a local day unless those files change, and is recorded in the session so exports show it. A custom `SYSTEM.md` (`customPrompt`) keeps ownership of the identity; the extension does not override it. The current emotion is appended to the conversation as a hidden message (not shown in the UI, but visible to the model) only when the emotion or its intensity level changes. It carries no exact percentage or timestamp, so decay within the same intensity level adds no new snapshot. Earlier snapshots stay in the history unchanged; the model is told that only the latest one counts. After a branch switch, compaction or context edit removes the latest snapshot, it is sent again on the next prompt, or right away when pi continues automatically after compaction.
 
 ## Features
 
-- **Identity preamble**: replaces the default identity with `SOUL.md`, local-date awareness, safety rules and personality-evolution guidance. The agent may refine only the `## Evolved Traits` section of `SOUL.md`, at most once daily.
+- **Persona section**: adds `SOUL.md`, local-date awareness, safety rules and personality-evolution guidance alongside pi's default identity. The agent may refine only the `## Evolved Traits` section of `SOUL.md`, at most once daily.
 - **Identity and traits**: reads name, emoji, description, and trait values from `IDENTIFY.md`.
 - **User preference context**: reads user-maintained context from `USER.md`.
 - **Emotion wheel model**: based on Plutchik's 8 basic emotions: joy, trust, fear, surprise, sadness, disgust, anger, and anticipation.
@@ -109,7 +109,7 @@ Trait values must be finite numbers in the 0–1 range. Invalid values fail expl
 
 ## Writing USER.md
 
-`USER.md` is user-maintained preference and context information. It is included under `USER PROFILE` in the identity preamble.
+`USER.md` is user-maintained preference and context information. It is included under `USER PROFILE` in the persona section.
 
 Example:
 

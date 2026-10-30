@@ -225,10 +225,9 @@ function registerAllHooks(pi: ExtensionAPI, state: PersonaRuntimeState): void {
 
     if (ctx.hasUI) ctx.ui.setStatus("soul-mood", getFooterStatusText(engine));
 
-    // 身份写入无 XML 的 preamble，而不是返回 systemPrompt：强制提示词不进会话记录（导出看不到），
-    // 还会把所有章节补丁折叠进每次改写的开头。心情作为隐藏消息追加在末尾。
+    // 避免强制替换整段提示词，以保留结构化章节及其会话记录；心情仍作为隐藏消息追加。
     if (!event.systemPromptOptions.customPrompt) {
-      event.systemPromptOptions.sections.preamble = soulPreamble(engine.soul, join(getAgentDir(), "SOUL.md"), new Date());
+      event.systemPromptOptions.sections.persona = soulPreamble(engine.soul, join(getAgentDir(), "SOUL.md"), new Date());
     }
     return { message: moodMessage(engine, ctx) };
   });
